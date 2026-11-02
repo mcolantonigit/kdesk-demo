@@ -8,12 +8,12 @@ This is the **public demo version** of a system that runs in production inside a
 **fictitious demo data only**: no company data, no real accounts. The interface and the documentation in `docs/`
 are in Spanish (Argentina).
 
-<!-- Screenshots pending, see docs/screenshots/README.md
 ![Login](docs/screenshots/01-login.png)
 ![Board](docs/screenshots/02-board.png)
 ![Ticket detail](docs/screenshots/03-ticket-detail.png)
-![Mobile](docs/screenshots/06-mobile.png)
--->
+<img src="docs/screenshots/06-mobile.png" alt="Mobile" width="280">
+
+More screens: [new ticket](docs/screenshots/04-new-ticket.png), [users and permissions](docs/screenshots/05-users-permissions.png).
 
 ## Features
 

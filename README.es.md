@@ -8,12 +8,12 @@ Esta es la **versión pública de demostración** de un sistema que corre en pro
 el código con **datos ficticios únicamente**: sin datos de la empresa ni cuentas reales. La interfaz y la
 documentación de `docs/` están en español rioplatense.
 
-<!-- Capturas pendientes, ver docs/screenshots/README.md
 ![Login](docs/screenshots/01-login.png)
 ![Tablero](docs/screenshots/02-board.png)
 ![Detalle de ticket](docs/screenshots/03-ticket-detail.png)
-![Móvil](docs/screenshots/06-mobile.png)
--->
+<img src="docs/screenshots/06-mobile.png" alt="Móvil" width="280">
+
+Más pantallas: [nuevo ticket](docs/screenshots/04-new-ticket.png), [usuarios y permisos](docs/screenshots/05-users-permissions.png).
 
 ## Funcionalidades
 
