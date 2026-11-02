@@ -1,0 +1,13 @@
+{
+  "name": "kdesk-demo",
+  "private": true,
+  "license": "UNLICENSED",
+  "description": "KDesk demo: internal helpdesk / ticketing system (portfolio version, demo data only)",
+  "scripts": {
+    "setup:db": "npm --prefix backend run db:setup",
+    "seed:demo": "npm --prefix backend run seed:demo",
+    "dev:backend": "npm --prefix backend run dev",
+    "dev:frontend": "npm --prefix frontend run dev",
+    "test": "npm --prefix backend test && npm --prefix frontend test"
+  }
+}

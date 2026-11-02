@@ -1,0 +1,27 @@
+node_modules/
+dist/
+.env
+.env.*
+!.env.example
+*.log
+.DS_Store
+.vscode/*
+!.vscode/extensions.json
+.idea/
+
+# Agente de construcción (no se publica)
+.agente/
+
+# Artefactos de ejecución
+backend/uploads/*
+!backend/uploads/.gitkeep
+backend/backups/*
+!backend/backups/.gitkeep
+backend/logs/*
+!backend/logs/.gitkeep
+backend/scripts/run-backend.cmd
+*.dump
+*.pem
+*.pfx
+*.key
+*.csv

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <defs>
+    <style>
+      .cls-1 {
+        isolation: isolate;
+      }
+
+      .cls-2 {
+        fill: #f58322;
+      }
+
+      .cls-2, .cls-3 {
+        fill-rule: evenodd;
+      }
+
+      .cls-3 {
+        fill: #01aef0;
+      }
+    </style>
+  </defs>
+  <g id="Relleno_de_color_2" data-name="Relleno de color 2" class="cls-1">
+    <g>
+      <polygon class="cls-2" points="8.87 4.32 8.87 27.6 0 27.6 .02 4.35 8.87 4.32"/>
+      <path class="cls-3" d="m17.37,4.41l-7.61,11.59,7.71,11.68c9.53-.08,14.53-.08,14.53-11.73s-5-11.64-14.63-11.54Zm4.07,17.06l-4.24-5.44,4.24-5.35s3.16,0,3.16,5.32-3.16,5.47-3.16,5.47Z"/>
+    </g>
+  </g>
+</svg>

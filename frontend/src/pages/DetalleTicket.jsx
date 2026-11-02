@@ -1,0 +1,181 @@
+import { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useTicketDetalle } from '../hooks/useTicketDetalle';
+import Button from '../components/Button';
+import ModalCerrarTicket from '../components/ModalCerrarTicket';
+import BackButton from '../components/BackButton';
+import Checklist from '../components/Checklist';
+import ActividadTicket from '../components/ActividadTicket';
+import Selector from '../components/Selector';
+import '../styles/DetalleTicket.css';
+import { formatearFechaHora } from '../utils/fechas';
+import { API } from '../utils/api';
+import { elegibles } from '../utils/opciones';
+
+function DetalleTicket() {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const {
+    usuario,
+    esTecnico,
+    cargando,
+    error,
+    ticket,
+    comentarios,
+    adjuntosTicket,
+    historial,
+    catalogos,
+    tecnicos,
+    nombres,
+    yaCerrado,
+    puedeCerrar,
+    recargar,
+    agregarComentario,
+    quitarComentario,
+    cambiarEstado,
+    cambiarTipo,
+    cambiarPrioridad,
+    asignarResponsable,
+  } = useTicketDetalle(id);
+
+  const [mostrarCierre, setMostrarCierre] = useState(false);
+
+  useEffect(() => {
+    function handleKeyDown(event) {
+      const tag = event.target.tagName;
+      const enCampoDeTexto = tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || event.target.isContentEditable;
+
+      if (event.key === 'Escape') {
+        navigate(-1);
+      } else if (event.key === 'Backspace' && !enCampoDeTexto) {
+        navigate(-1);
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [navigate]);
+
+  async function handleTicketCerrado() {
+    setMostrarCierre(false);
+    await recargar();
+  }
+
+  if (cargando) return <p>Cargando...</p>;
+  if (error) return <p className="ticket-form-error">{error}</p>;
+  if (!ticket) return null;
+
+  const dato = (etiqueta, valor) => (
+    <div>
+      <dt>{etiqueta}</dt>
+      <dd>{valor}</dd>
+    </div>
+  );
+
+  // Los técnicos editan estado, tipo, prioridad y responsable como en el Tablero;
+  // el resto los ve como texto.
+  const editable = (etiqueta, textoActual, valor, opciones, onCambiar, textoSinValor) =>
+    esTecnico
+      ? dato(
+          etiqueta,
+          <Selector aria-label={etiqueta} value={valor ?? ''} onChange={(event) => onCambiar(Number(event.target.value))}>
+            {textoSinValor && (
+              <option value="" disabled>
+                {textoSinValor}
+              </option>
+            )}
+            {elegibles(opciones, valor).map((opcion) => (
+              <option key={opcion.id} value={opcion.id}>
+                {opcion.nombre}
+              </option>
+            ))}
+          </Selector>
+        )
+      : dato(etiqueta, textoActual);
+
+  const opcionesTecnicos = tecnicos.map((tecnico) => ({ id: tecnico.id, nombre: `${tecnico.nombre} ${tecnico.apellido}` }));
+
+  return (
+    <div className="detalle-ticket">
+      <div className="detalle-ticket-cabecera">
+        <BackButton onClick={() => navigate(-1)}>Atrás</BackButton>
+        <h1>
+          {ticket.numero} — {ticket.titulo}
+        </h1>
+        {puedeCerrar && !yaCerrado && (
+          <Button variant="secondary" size="sm" onClick={() => setMostrarCierre(true)}>
+            Cerrar ticket
+          </Button>
+        )}
+      </div>
+
+      <dl className="detalle-ticket-datos">
+        {editable('Estado', nombres.estado, ticket.id_estado, catalogos.estados, cambiarEstado)}
+        {editable('Tipo', nombres.tipo, ticket.id_tipo, catalogos.tipos, cambiarTipo)}
+        {editable(
+          'Prioridad',
+          nombres.prioridad,
+          ticket.id_prioridad ?? ticket.id_prioridad_sugerida,
+          catalogos.prioridades,
+          cambiarPrioridad
+        )}
+        {editable(
+          'Responsable',
+          nombres.responsable,
+          ticket.id_tecnico_responsable,
+          opcionesTecnicos,
+          asignarResponsable,
+          'Sin asignar'
+        )}
+        {dato('Creado por', nombres.creador)}
+        {dato('Sucursal', nombres.sucursal)}
+        {dato('Sector', nombres.sector)}
+        {dato('Creación', formatearFechaHora(ticket.fecha_creacion))}
+        {dato('Última actualización', formatearFechaHora(ticket.fecha_actualizacion))}
+        {ticket.fecha_cierre && dato('Cierre', formatearFechaHora(ticket.fecha_cierre))}
+      </dl>
+
+      <div className="detalle-ticket-cuerpo">
+        <div className="detalle-ticket-principal">
+          <section className="detalle-ticket-descripcion">
+            <h2>Descripción</h2>
+            <p>{ticket.descripcion}</p>
+          </section>
+
+          {esTecnico && <Checklist idTicket={id} />}
+
+          <section className="detalle-ticket-adjuntos">
+            <h2>Adjuntos</h2>
+            {adjuntosTicket.length === 0 ? (
+              <p className="detalle-ticket-comentarios-vacio">Sin adjuntos</p>
+            ) : (
+              <ul className="detalle-ticket-adjuntos-lista">
+                {adjuntosTicket.map((adjunto) => (
+                  <li key={adjunto.id}>
+                    <a href={`${API}/api/adjuntos/${adjunto.id}/descargar`}>{adjunto.nombre_archivo}</a>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </section>
+        </div>
+
+        <ActividadTicket
+          comentarios={comentarios}
+          historial={historial}
+          usuario={usuario}
+          esTecnico={esTecnico}
+          yaCerrado={yaCerrado}
+          onAgregarComentario={agregarComentario}
+          onEliminarComentario={quitarComentario}
+        />
+      </div>
+
+      {mostrarCierre && (
+        <ModalCerrarTicket ticket={ticket} onClose={() => setMostrarCierre(false)} onCerrado={handleTicketCerrado} />
+      )}
+    </div>
+  );
+}
+
+export default DetalleTicket;

@@ -1,0 +1,174 @@
+.panel-layout {
+  min-height: 100svh;
+}
+
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: var(--panel-header-height);
+  padding: 0 32px;
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: var(--bg);
+}
+
+.panel-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.panel-logo {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+}
+
+.panel-header-derecha {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.panel-user {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+.panel-content {
+  padding: 32px;
+}
+
+.panel-nav {
+  display: flex;
+  align-items: center;
+}
+
+.panel-nav-item {
+  position: relative;
+  padding: 22px 0;
+}
+
+.panel-nav-trigger {
+  display: inline-flex;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  cursor: pointer;
+  padding: 8px 14px;
+  border-radius: 8px;
+  transition: background var(--transition);
+}
+
+.panel-logout-btn {
+  padding: 0 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.panel-nav-item:hover .panel-nav-trigger {
+  background: var(--hover-bg);
+}
+
+.panel-nav-submenu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  display: none;
+  flex-direction: column;
+  min-width: 180px;
+  padding: 8px;
+  background: var(--card-bg);
+  backdrop-filter: var(--blur);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  z-index: 10;
+}
+
+.panel-nav-item:hover .panel-nav-submenu {
+  display: flex;
+}
+
+.panel-nav-submenu-derecha {
+  left: auto;
+  right: 0;
+}
+
+.panel-header-derecha .panel-nav-item {
+  padding: 0;
+  display: flex;
+  align-items: center;
+}
+
+.panel-nav-submenu a,
+.panel-nav-submenu > button {
+  padding: 10px 12px;
+  border-radius: 8px;
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 14px;
+  transition: background var(--transition), color var(--transition);
+}
+
+.panel-nav-submenu > button {
+  background: transparent;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  font: inherit;
+  font-size: 14px;
+}
+
+.panel-nav-submenu a:hover,
+.panel-nav-submenu a.active,
+.panel-nav-submenu > button:hover {
+  background: var(--hover-bg);
+  color: var(--text);
+}
+
+.panel-nav-submenu-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  color: var(--text-secondary);
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.panel-nav-submenu-checkbox:hover {
+  background: var(--hover-bg);
+  color: var(--text);
+}
+
+.panel-nav-submenu-checkbox input {
+  cursor: pointer;
+  accent-color: var(--accent);
+}
+
+.panel-nav-submenu a.panel-nav-destacado,
+.panel-nav-submenu > button.panel-nav-destacado {
+  color: #fff;
+  background: var(--accent);
+  font-weight: 600;
+}
+
+.panel-nav-submenu a.panel-nav-destacado:hover,
+.panel-nav-submenu > button.panel-nav-destacado:hover {
+  background: var(--accent-hover);
+  color: #fff;
+}
