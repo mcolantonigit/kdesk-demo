@@ -1,0 +1,20 @@
+# Postgres para la demo: crea la base "kdesk_demo" con el esquema y los datos
+# ficticios (database/schema.sql + database/seed-demo.sql).
+#   docker compose up -d
+# Para las pruebas automáticas del backend hace falta además la base de tests:
+#   (en backend/)  npm run test:db
+services:
+  db:
+    image: postgres:17
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: demo
+      POSTGRES_DB: kdesk_demo
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./database/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+      - ./database/seed-demo.sql:/docker-entrypoint-initdb.d/02-seed-demo.sql:ro
+      - kdesk-demo-data:/var/lib/postgresql/data
+volumes:
+  kdesk-demo-data:
